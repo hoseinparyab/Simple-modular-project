@@ -2,9 +2,11 @@
 
 namespace Modules\Category\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\Category\Entities\Category;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Category\Http\Requests\CreateCategoryRequest;
 
 class CategoryController extends Controller
 {
@@ -14,7 +16,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return view('category::index');
+        $categories = Category::all();
+
+        return view('category::index', compact('categories'));
     }
 
     /**
@@ -31,9 +35,12 @@ class CategoryController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(CreateCategoryRequest $request)
     {
-        //
+
+        $inputs = $request -> all();
+        Category::create($inputs);
+        return to_route('category.index');
     }
 
     /**
