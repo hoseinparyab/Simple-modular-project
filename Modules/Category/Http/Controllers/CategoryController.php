@@ -17,7 +17,6 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::all();
-
         return view('category::index', compact('categories'));
     }
 
@@ -58,9 +57,9 @@ class CategoryController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(Category $category)
     {
-        return view('category::edit');
+        return view('category::edit',compact('category'));
     }
 
     /**
@@ -69,9 +68,12 @@ class CategoryController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Category $category)
     {
-        //
+        $inputs = $request->all();
+        $category->update(['name' => $inputs['name'], 'description' => $inputs['description']]);
+        return to_route('category.index');
+
     }
 
     /**
@@ -79,8 +81,11 @@ class CategoryController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Category $category)
     {
-        //
+
+       $category->delete();
+        return to_route('category.index');
+
     }
 }
