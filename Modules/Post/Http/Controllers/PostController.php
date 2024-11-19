@@ -2,10 +2,11 @@
 
 namespace Modules\Post\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Modules\Post\Entities\Post;
-use Illuminate\Routing\Controller;
 use Illuminate\Contracts\Support\Renderable;
+use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
+use Modules\Post\Entities\Post;
+
 
 class PostController extends Controller
 {
@@ -16,7 +17,7 @@ class PostController extends Controller
     public function index()
     {
         $posts = Post::all();
-        return view('post::index' ,compact('posts'));
+        return view('post::index', compact('posts'));
     }
 
     /**

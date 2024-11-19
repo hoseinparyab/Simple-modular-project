@@ -1,5 +1,8 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Modules\Post\Http\Controllers\PostController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,7 +13,4 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::prefix('post')->group(function() {
-    Route::get('/', 'PostController@index');
-});
+Route::resource('post', PostController::class);
