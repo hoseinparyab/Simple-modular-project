@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\Category\Entities\Category;
 use Illuminate\Contracts\Support\Renderable;
 use Modules\Post\Http\Requests\CreatePostRequest;
+use Modules\Post\Http\Requests\UpdatePostRequest;
 
 
 class PostController extends Controller
@@ -51,7 +52,7 @@ class PostController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function show($id)
+    public function show(Post $post)
     {
         return view('post::show');
     }
@@ -61,9 +62,10 @@ class PostController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function edit($id)
+    public function edit(Post $post )
     {
-        return view('post::edit');
+        $categories = Category::all();
+        return view('post::edit', compact('post', 'category'));
     }
 
     /**
@@ -72,9 +74,11 @@ class PostController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePostRequest $request, Post $post )
     {
-        //
+        $inputs = $request->all();
+        $post->update(['name' => $inputs['name'], 'description' => $inputs['description'] ,'category_id' => $inputs ['category_id']]);
+        return to_route('post.index');
     }
 
     /**
@@ -82,8 +86,10 @@ class PostController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy( Post $post)
     {
-        //
+        $post->delete();
+        return to_route('post.index');
+
     }
 }
