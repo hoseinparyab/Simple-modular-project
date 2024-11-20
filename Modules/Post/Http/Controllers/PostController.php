@@ -2,10 +2,12 @@
 
 namespace Modules\Post\Http\Controllers;
 
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\Post\Entities\Post;
+use Illuminate\Routing\Controller;
+use Modules\Category\Entities\Category;
+use Illuminate\Contracts\Support\Renderable;
+use Modules\Post\Http\Requests\CreatePostRequest;
 
 
 class PostController extends Controller
@@ -26,7 +28,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        return view('post::create');
+        $categories = Category::all();
+
+        return view('post::create',compact('categories'));
     }
 
     /**
@@ -34,9 +38,12 @@ class PostController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(CreatePostRequest $request)
     {
-        //
+
+        $inputs = $request->all();
+        Post::create($inputs);
+        return to_route('post.index');
     }
 
     /**
